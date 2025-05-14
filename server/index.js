@@ -1432,3 +1432,6 @@ const port = ENV.PORT || 3001;
 app.listen(port, () => {
   console.log(`You are connected at port: ${port}`);
 });
+app.get("/", (req, res) => {
+  res.send({ message: "API is running ✅" });
+});
