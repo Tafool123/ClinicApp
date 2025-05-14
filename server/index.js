@@ -26,10 +26,17 @@ app.use(express.json());
 // إعداد CORS يدعم عدة origins من CLIENT_URL
 const allowedOrigins = process.env.CLIENT_URL.split(",");
 
+const cors = require("cors");
+
+const allowedOrigins = [
+  "http://localhost:3000", // للتطوير المحلي
+  "https://clinicapp-2y5f.onrender.com", // رابط الواجهة على Render
+];
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      // إذا لم يوجد origin (في حالة curl مثلًا) أو موجود في القائمة
+      // يسمح إذا لم يوجد origin (مثل Postman أو curl) أو موجود في القائمة
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -39,6 +46,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.urlencoded({ extended: true }));
 // Database connection
 const connectString = `mongodb+srv://${ENV.DB_USER}:${ENV.DB_PASSWORD}@${ENV.DB_CLUSTER}/${ENV.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
@@ -1435,11 +1443,3 @@ app.listen(port, () => {
 app.get("/", (req, res) => {
   res.send({ message: "API is running ✅" });
 });
-const cors = require("cors");
-
-app.use(
-  cors({
-    origin: "https://clinicapp-2y5f.onrender.com", // رابط الواجهة
-    credentials: true,
-  })
-);
