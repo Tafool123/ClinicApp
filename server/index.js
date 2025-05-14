@@ -1435,3 +1435,11 @@ app.listen(port, () => {
 app.get("/", (req, res) => {
   res.send({ message: "API is running ✅" });
 });
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "https://clinicapp-2y5f.onrender.com", // رابط الواجهة
+    credentials: true,
+  })
+);
